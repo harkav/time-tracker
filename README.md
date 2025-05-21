@@ -82,9 +82,10 @@ taskTags
 - Adding functionality for more complicated update queries. 
 - Adding functionality for more comlicated view queries 
 - Adding some analytics functions, perhaps some way to create a report. 
-- Adding a GUI? 
+- Add TUI
 - Making it a web app 
 - Cleaning up the code, adding a few comments here and there, making sure that all the comments are in English, not Norwegian. 
+- Add docs 
 
 ## Licence
 
