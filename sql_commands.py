@@ -315,3 +315,37 @@ def mark_task_as_finished(cur : sqlite3.Cursor, taskID: str, end_date: str | Non
     except sqlite3.Error as e: 
         print(f"Failed to update task")
         cur.connection.rollback() 
+
+
+def update_task(cur: sqlite3.Cursor, taskID: str, task_column : str, new_cell_data : str): 
+    #TODO add validation for editing time. 
+    
+    try: 
+        cur.execute("SELECT * FROM Tasks WHERE taskID = ?", (taskID, ))
+        task = cur.fetchone()
+        allowed_column_names = get_column_names_task(cur, "tasks")
+        
+        if not task_column in allowed_column_names: 
+            print(f"Could not find column {task_column}, found {allowed_column_names}")
+            return 
+        
+
+        if not task: 
+            print(f"Task with id {taskID} not found, no changes made")
+            return 
+       
+        cur.execute(f"UPDATE tasks SET {task_column} = ? WHERE taskID = ?", 
+                    (new_cell_data, taskID))
+        
+        cur.connection.commit() 
+
+        print(f"Task with id {taskID} updated")
+    except sqlite3.Error as e: 
+        print(f"Failed to update task")
+        cur.connection.rollback()
+        
+
+def get_column_names_task(cur: sqlite3.Cursor, table_name : str) -> list[str]: 
+    cur.execute(f"PRAGMA table_info({table_name});")
+    
+    return [col[1] for col in cur.fetchall()]

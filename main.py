@@ -53,6 +53,13 @@ delete_parser.add_argument("--task_id", type=int, required=True, help="ID of the
 # Subcommand: View all
 view_all_parser = subparsers.add_parser("view all", help= "View all tasks")
 
+# Subcommand: Update
+
+update_parser = subparsers.add_parser("update", help="Update a task")
+update_parser.add_argument("--task_id", type=int, required=True, help="ID of the task to update")
+update_parser.add_argument("--task_column", type =str, required=True, help="The name of the column to update")
+update_parser.add_argument("--new_cell_data", type=str, required=True, help="the new data to be inserted")
+
 
 args = parser.parse_args() 
 
@@ -75,7 +82,9 @@ try:
     elif args.command == "finish": 
         sql_commands.mark_task_as_finished(cur, args.task_id, args.end_date)
     elif args.command == "view all": 
-        sql_commands.display_pretty(cur) 
+        sql_commands.display_pretty(cur)
+    elif args.command == "update": 
+        sql_commands.update_task(cur, args.task_id, args.task_column, args.new_cell_data)
 finally: 
     connection.close() 
 
