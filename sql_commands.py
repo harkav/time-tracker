@@ -327,7 +327,16 @@ def update_task(cur: sqlite3.Cursor, taskID: str, task_column : str, new_cell_da
         
         if not task_column in allowed_column_names: 
             print(f"Could not find column {task_column}, found {allowed_column_names}")
-            return 
+            return
+        
+        if task_column in {"start_date", "end_date"}: 
+            time = validate_time(new_cell_data)
+            if not time: 
+                return
+        
+        if task_column == "ID": 
+            print("Cannot change ID")
+            return   
         
 
         if not task: 
@@ -349,3 +358,13 @@ def get_column_names_task(cur: sqlite3.Cursor, table_name : str) -> list[str]:
     cur.execute(f"PRAGMA table_info({table_name});")
     
     return [col[1] for col in cur.fetchall()]
+
+
+def validate_time(maybe_time : str) -> datetime.datetime: 
+    
+    try: 
+        time = datetime.datetime.strptime(maybe_time, "%Y-%m-%d %H:%M")
+        return time 
+    except ValueError: 
+        raise ValueError(f"Could not read time {maybe_time}, enter time on the format YYYY-MM-DD")
+    
