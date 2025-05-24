@@ -1,3 +1,4 @@
 - [] write a update tags method 
 - [] write tests 
 - [] implement a TUI 
+- [] write doc strings

@@ -32,8 +32,8 @@ def create_table_tagsTasks(cur: sqlite3.Cursor) -> None:
         CREATE TABLE IF NOT EXISTS taskTags(
             taskID integer, 
             tagID integer, 
-            FOREIGN KEY (taskID) REFERENCES Tasks (taskID) on DELETE CASCADE, 
-            FOREIGN KEY (tagID) REFERENCES Tags (tagID) on DELETE CASCADE, 
+            FOREIGN KEY (taskID) REFERENCES tasks (taskID) on DELETE CASCADE, 
+            FOREIGN KEY (tagID) REFERENCES tags (tagID) on DELETE CASCADE, 
             PRIMARY KEY (taskID, tagID)
         )
 """
@@ -179,6 +179,14 @@ def display_raw(cur: sqlite3.Cursor, tablenames: list[str]) -> None:
 
 
 def display_pretty(cur: sqlite3.Cursor) -> None:
+    """
+    Displays the the rows of TaskTags prettified
+    
+    Args: 
+        cur (sqlite3.Cursor) the cursor
+    
+    """
+    
     cur.execute(
         """
                 SELECT 

@@ -72,7 +72,7 @@ tags
 taskTags
 
     taskID (Foreign Key to tasks)
-    tagID (Foreign Key to tags
+    tagID (Foreign Key to tags)
 
 
 
